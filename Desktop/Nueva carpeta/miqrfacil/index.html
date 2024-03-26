@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GENERA TU QR</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="container">
+    <h1>GENERA TU QR</h1>
+    <div class="input-container">
+        <label for="url">URL:</label>
+        <input type="text" id="url" placeholder="Ingresa la URL...">
+        <button onclick="generateQR('url')">Generar QR para URL</button>
+        <div id="qr-code-url"></div>
+    </div>
+    <div class="input-container">
+        <label for="ssid">Nombre de Red (SSID):</label>
+        <input type="text" id="ssid" placeholder="Nombre de Red...">
+        <label for="password">Contraseña:</label>
+        <input type="text" id="password" placeholder="Contraseña...">
+        <button onclick="generateQR('wifi')">Generar QR para Wi-Fi</button>
+        <div id="qr-code-wifi"></div>
+    </div>
+    <button onclick="resetQR()">Reiniciar</button>
+</div>
+
+<script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+<script>
+    function generateQR(type) {
+        if (type === 'url') {
+            var url = document.getElementById('url').value;
+            var qrCodeUrlDiv = document.getElementById('qr-code-url');
+            qrCodeUrlDiv.innerHTML = '';
+            var qrUrl = new QRCode(qrCodeUrlDiv, {
+                text: url,
+                width: 300,
+                height: 300
+            });
+        } else if (type === 'wifi') {
+            var ssid = document.getElementById('ssid').value;
+            var password = document.getElementById('password').value;
+            var wifiData = "WIFI:T:WPA;S:" + ssid + ";P:" + password + ";;";
+            var qrCodeWifiDiv = document.getElementById('qr-code-wifi');
+            qrCodeWifiDiv.innerHTML = '';
+            var qrWifi = new QRCode(qrCodeWifiDiv, {
+                text: wifiData,
+                width: 300,
+                height: 300
+            });
+        }
+    }
+
+    function resetQR() {
+        document.getElementById('url').value = '';
+        document.getElementById('qr-code-url').innerHTML = '';
+        document.getElementById('ssid').value = '';
+        document.getElementById('password').value = '';
+        document.getElementById('qr-code-wifi').innerHTML = '';
+    }
+</script>
+</body>
+</html>
